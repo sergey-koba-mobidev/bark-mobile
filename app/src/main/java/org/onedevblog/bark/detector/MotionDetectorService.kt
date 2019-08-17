@@ -9,15 +9,15 @@ import android.graphics.Color
 import android.os.Build
 
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import org.onedevblog.bark.MainActivity
 import org.onedevblog.bark.R
 import android.graphics.ImageFormat
 import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 import android.media.ImageReader
 import android.util.Log
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
 import android.hardware.camera2.*
 import java.util.*
 import android.hardware.camera2.CameraAccessException

@@ -6,10 +6,10 @@ import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.os.PowerManager
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics
 import android.util.Rational
 import android.util.Size
@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import org.onedevblog.bark.detector.DetectorPreferences
 import org.onedevblog.bark.detector.MotionDetectorService
 import android.hardware.camera2.CameraCharacteristics
+import android.view.ViewGroup
 import androidx.camera.core.CameraX
 import androidx.camera.core.Preview
 
@@ -64,6 +65,11 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 1)
+        }
+
         texture.post { startCamera() }
     }
 
@@ -73,6 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         val detectorPref = DetectorPreferences()
+        detectorPref.load()
         val cameraChars = manager.getCameraCharacteristics(detectorPref.camera)
         val facing = cameraChars.get(CameraCharacteristics.LENS_FACING)
         var lensFacing = CameraX.LensFacing.BACK
@@ -88,17 +95,16 @@ class MainActivity : AppCompatActivity() {
 
         val preview = Preview(previewConfig)
         preview.setOnPreviewOutputUpdateListener {
+            val parent = texture.parent as ViewGroup
+            parent.removeView(texture)
+            parent.addView(texture, 0)
             texture.surfaceTexture = it.surfaceTexture
         }
+        CameraX.bindToLifecycle(this, preview)
     }
 
     public override fun onResume() {
         super.onResume()
-
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 1)
-        }
     }
 
     public override fun onPause() {
