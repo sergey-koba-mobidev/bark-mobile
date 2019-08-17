@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:id="@+id/constraintLayout"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".ui.main.DetectorSettingsFragment"
+>
+
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_margin="10dp"
+                android:layout_marginBottom="10dp">
+            <TextView
+                    android:id="@+id/detector_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:layout_constraintTop_creator="1"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    tools:layout_constraintLeft_creator="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/constraintLayout" android:text="@string/detector_name"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/detector_name_edit" android:hint="@string/detector_name_hint"/>
+            <TextView
+                    android:text="@string/detector_sensitivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/detector_sensitivity_label"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/detector_sensitivity_edit" android:text="@string/default_detector_sensitivity"
+                    android:hint="@string/default_detector_sensitivity"/>
+            <TextView
+                    android:text="@string/detector_delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/detector_delay_label"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/delay_edit" android:text="@string/default_delay_between_photos"
+                    android:hint="@string/default_delay_between_photos"/>
+            <TextView
+                    android:text="@string/rotation_degrees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/rotation_degrees_label"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/rotation_edit" android:hint="@string/default_rotation_degrees"
+                    android:text="@string/default_rotation_degrees"/>
+            <TextView
+                    android:text="@string/image_width"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/image_width_label"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="@string/default_image_width"
+                    android:ems="10"
+                    android:id="@+id/image_width_edit" android:hint="@string/default_image_width"/>
+            <TextView
+                    android:text="@string/image_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/image_height_label"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="@string/default_image_width"
+                    android:ems="10"
+                    android:id="@+id/image_height_edit" android:hint="@string/default_image_height"/>
+            <TextView
+                    android:text="@string/camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/camera_label"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/camera_spinner"/>
+            <TextView
+                    android:text="@string/put_date_on_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/text_on_image_label"/>
+            <CheckBox
+                    android:text="@string/put_date_on_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/put_date_checkbox"/>
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
