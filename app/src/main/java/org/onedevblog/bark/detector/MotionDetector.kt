@@ -10,7 +10,7 @@ class MotionDetector {
     private val TAG = "MotionDetector"
     private var avg: Mat? = null
 
-    fun processMat(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat {
+    fun processMat(inputFrame: CameraBridgeViewBase.CvCameraViewFrame, detectorPref: DetectorPreferences): DetectorFrame {
         var outFrame = inputFrame.rgba()
 
         // resize the frame, convert it to grayscale, and blur it
@@ -50,11 +50,12 @@ class MotionDetector {
         val hierarchy = Mat()
         Imgproc.findContours(frameDilate, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE)
 
+        var isMotionDetected = false
         for (c in contours) {
-            if (Imgproc.contourArea(c) > 5000.0) { //big enough motion
-                Log.d(TAG, "Found contour " + Imgproc.contourArea(c))
+            if (Imgproc.contourArea(c) > detectorPref.sensitivity) { //big enough motion
                 val cRect = Imgproc.boundingRect(c)
                 Imgproc.rectangle(outFrame, cRect.tl(), cRect.br(), Scalar(0.0, 255.0, 0.0), 2)
+                isMotionDetected = true
             }
         }
 
@@ -66,6 +67,6 @@ class MotionDetector {
         hierarchy.release()
         contours.clear()
 
-        return outFrame
+        return DetectorFrame(outFrame, isMotionDetected)
     }
 }

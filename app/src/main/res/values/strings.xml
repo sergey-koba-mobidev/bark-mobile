@@ -23,6 +23,6 @@
     <string name="default_rotation_degrees">0</string>
     <string name="default_detector_sensitivity">5000</string>
     <string name="default_delay_between_photos">5000</string>
-    <string name="default_image_width">1920</string>
-    <string name="default_image_height">1088</string>
+    <string name="default_image_width">1088</string>
+    <string name="default_image_height">1920</string>
 </resources>

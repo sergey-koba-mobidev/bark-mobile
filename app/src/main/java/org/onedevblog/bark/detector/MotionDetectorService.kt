@@ -31,11 +31,12 @@ import org.opencv.android.OpenCVLoader
 
 class MotionDetectorService: Service() {
     private val TAG = "MotionDetectorService"
-    private lateinit var mServiceCamera: Camera
+    private val detectorPref = DetectorPreferences()
     private lateinit var cameraDevice: CameraDevice
     private lateinit var imageReader: ImageReader
     private lateinit var session: CameraCaptureSession
     private val motionDetector = MotionDetector()
+    private val motionProcessor = MotionProcessor()
     private lateinit var handlerThread: HandlerThread
     private lateinit var handler: Handler
 
@@ -106,10 +107,9 @@ class MotionDetectorService: Service() {
             if (img != null) {
                 if (System.currentTimeMillis() > cameraCaptureStartTime + CAMERA_CALIBRATION_DELAY) {
                     val frame = JavaCamera2Frame(img)
-                    val detectorFrame = motionDetector.processMat(frame)
-                    detectorFrame.release()
+                    val detectorFrame = motionDetector.processMat(frame, detectorPref)
+                    motionProcessor.handleFrame(detectorFrame, detectorPref)
                     frame.release()
-                    Log.d(TAG, "got image")
                 }
                 img.close()
             }
@@ -132,6 +132,7 @@ class MotionDetectorService: Service() {
 
     override fun onCreate() {
         super.onCreate()
+        detectorPref.load()
         startForeground()
     }
 
@@ -157,7 +158,6 @@ class MotionDetectorService: Service() {
     private fun initCamera() {
         val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         try {
-            val pickedCamera = getCamera(manager)
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.CAMERA
@@ -166,29 +166,13 @@ class MotionDetectorService: Service() {
                 return
             }
             isServiceRunning = true
-            manager.openCamera(pickedCamera, cameraStateCallback, null)
-            imageReader = ImageReader.newInstance(1920, 1088, ImageFormat.YUV_420_888, 2 /* images buffered */)
+            manager.openCamera(detectorPref.camera, cameraStateCallback, null)
+            imageReader = ImageReader.newInstance(detectorPref.imageWidth, detectorPref.imageHeight, ImageFormat.YUV_420_888, 2 /* images buffered */)
             imageReader.setOnImageAvailableListener(onImageAvailableListener, handler)
             Log.d(TAG, "imageReader created")
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.message)
         }
-    }
-
-    fun getCamera(manager: CameraManager): String? {
-        try {
-            for (cameraId in manager.cameraIdList) {
-                val characteristics = manager.getCameraCharacteristics(cameraId)
-                val cOrientation = characteristics.get(CameraCharacteristics.LENS_FACING)!!
-                if (cOrientation == CAMERACHOICE) {
-                    return cameraId
-                }
-            }
-        } catch (e: CameraAccessException) {
-            e.printStackTrace()
-        }
-
-        return null
     }
 
     private fun actOnReadyCameraDevice() {
@@ -243,7 +227,6 @@ class MotionDetectorService: Service() {
         val CHANNEL_ID = "motion_detector_service_channel_id"
         val CHANNEL_NAME = "motion_detector_service_channel_name"
         var isServiceRunning = false
-        val CAMERACHOICE = CameraCharacteristics.LENS_FACING_BACK
         var cameraCaptureStartTime: Long = 0
         val CAMERA_CALIBRATION_DELAY = 500
     }

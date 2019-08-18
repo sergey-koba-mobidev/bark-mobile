@@ -7,7 +7,7 @@ import android.hardware.camera2.CameraManager
 import org.onedevblog.bark.BarkApplication
 import org.onedevblog.bark.R
 
-class DetectorPreferences() {
+class DetectorPreferences {
     var sharedPref: SharedPreferences
     var name: String = ""
     var sensitivity: Int = 0
