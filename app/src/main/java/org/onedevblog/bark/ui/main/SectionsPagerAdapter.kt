@@ -1,6 +1,7 @@
 package org.onedevblog.bark.ui.main
 
 import android.content.Context
+import android.drm.DrmStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -18,7 +19,11 @@ private val TAB_TITLES = arrayOf(
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return DetectorSettingsFragment()
+        var f: Fragment = DetectorSettingsFragment()
+        if (position == 1) {
+            f = ActionsSettingsFragment()
+        }
+        return f
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

@@ -17,6 +17,9 @@ class DetectorPreferences {
     var imageHeight: Int = 0
     var camera: String = ""
     var putDateOnImage: Boolean = false
+    var saveToMediaLibrary: Boolean = false
+    var sendToTelegram: Boolean = false
+    var telegramChatId: String = ""
 
     init {
         sharedPref = BarkApplication.context.getSharedPreferences(BarkApplication.context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
@@ -31,6 +34,9 @@ class DetectorPreferences {
         val defaultImageHeight = BarkApplication.context.resources.getString(R.string.default_image_height).toInt()
         val defaultCamera = getCamerasIds().first()
         val defaultPutDateOnImage = false
+        val defaultSaveToMediaLibrary = false
+        val defaultSendToTelegram = false
+        val defaultTelegramChatId = ""
 
         name = sharedPref.getString("detector_name", defaultName)
         sensitivity = sharedPref.getInt("detector_sensitivity", defaultSensitivity)
@@ -40,6 +46,9 @@ class DetectorPreferences {
         imageHeight = sharedPref.getInt("detector_image_height", defaultImageHeight)
         camera = sharedPref.getString("detector_camera", defaultCamera)
         putDateOnImage = sharedPref.getBoolean("detector_put_date_on_image", defaultPutDateOnImage)
+        saveToMediaLibrary = sharedPref.getBoolean("actions_save_to_medialibrary", defaultSaveToMediaLibrary)
+        sendToTelegram = sharedPref.getBoolean("actions_send_to_telegram", defaultSendToTelegram)
+        telegramChatId = sharedPref.getString("actions_telegram_chat_id", defaultTelegramChatId)
     }
 
     fun save() {
@@ -52,6 +61,9 @@ class DetectorPreferences {
             putInt("detector_image_height", imageHeight)
             putString("detector_camera", camera)
             putBoolean("detector_put_date_on_image", putDateOnImage)
+            putBoolean("actions_save_to_medialibrary", saveToMediaLibrary)
+            putBoolean("actions_send_to_telegram", sendToTelegram)
+            putString("actions_telegram_chat_id", telegramChatId)
             commit()
         }
     }

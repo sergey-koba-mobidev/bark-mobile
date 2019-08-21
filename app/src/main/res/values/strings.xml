@@ -25,4 +25,11 @@
     <string name="default_delay_between_photos">5000</string>
     <string name="default_image_width">1088</string>
     <string name="default_image_height">1920</string>
+    <string name="media_library">Media Library</string>
+    <string name="save_to_media_library">Save images to Media Library</string>
+    <string name="telegram">Telegram</string>
+    <string name="telegram_instruction">Open Telegram. Find @BarkMobileBot using search and start conversation. Bot will respond with chat_id, which you need to copy to the field below and save Settings.</string>
+    <string name="telegram_chat_id">Telegram Chat ID</string>
+    <string name="send_to_telegram">Send images to Telegram</string>
+
 </resources>
