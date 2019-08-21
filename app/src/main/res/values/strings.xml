@@ -31,5 +31,6 @@
     <string name="telegram_instruction">Open Telegram. Find @BarkMobileBot using search and start conversation. Bot will respond with chat_id, which you need to copy to the field below and save Settings.</string>
     <string name="telegram_chat_id">Telegram Chat ID</string>
     <string name="send_to_telegram">Send images to Telegram</string>
-
+    <string name="start_delay">Delay before start (ms)</string>
+    <string name="default_start_delay">0</string>
 </resources>

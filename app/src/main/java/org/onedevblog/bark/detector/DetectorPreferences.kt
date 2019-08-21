@@ -12,6 +12,7 @@ class DetectorPreferences {
     var name: String = ""
     var sensitivity: Int = 0
     var delay: Int = 0
+    var startDelay: Int = 0
     var rotation: Int = 0
     var imageWidth: Int = 0
     var imageHeight: Int = 0
@@ -29,6 +30,7 @@ class DetectorPreferences {
         val defaultName = BarkApplication.context.resources.getString(R.string.detector_name_hint)
         val defaultSensitivity = BarkApplication.context.resources.getString(R.string.default_detector_sensitivity).toInt()
         val defaultDelay = BarkApplication.context.resources.getString(R.string.default_delay_between_photos).toInt()
+        val defaultStartDelay = BarkApplication.context.resources.getString(R.string.default_start_delay).toInt()
         val defaultRotation = BarkApplication.context.resources.getString(R.string.default_rotation_degrees).toInt()
         val defaultImageWidth = BarkApplication.context.resources.getString(R.string.default_image_width).toInt()
         val defaultImageHeight = BarkApplication.context.resources.getString(R.string.default_image_height).toInt()
@@ -41,6 +43,7 @@ class DetectorPreferences {
         name = sharedPref.getString("detector_name", defaultName)
         sensitivity = sharedPref.getInt("detector_sensitivity", defaultSensitivity)
         delay = sharedPref.getInt("detector_delay", defaultDelay)
+        startDelay = sharedPref.getInt("detector_start_delay", defaultStartDelay)
         rotation = sharedPref.getInt("detector_rotation", defaultRotation)
         imageWidth = sharedPref.getInt("detector_image_width", defaultImageWidth)
         imageHeight = sharedPref.getInt("detector_image_height", defaultImageHeight)
@@ -56,6 +59,7 @@ class DetectorPreferences {
             putString("detector_name", name)
             putInt("detector_sensitivity", sensitivity)
             putInt("detector_delay", delay)
+            putInt("detector_start_delay", startDelay)
             putInt("detector_rotation", rotation)
             putInt("detector_image_width", imageWidth)
             putInt("detector_image_height", imageHeight)

@@ -44,6 +44,16 @@
                     android:id="@+id/detector_sensitivity_edit" android:text="@string/default_detector_sensitivity"
                     android:hint="@string/default_detector_sensitivity"/>
             <TextView
+                    android:text="@string/start_delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/textView5"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/start_delay_edit" android:text="@string/default_start_delay"/>
+            <TextView
                     android:text="@string/detector_delay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/detector_delay_label"/>

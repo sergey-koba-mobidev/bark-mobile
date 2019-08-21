@@ -16,8 +16,10 @@ class MotionProcessor {
         if (!detectorFrame.isMotionDetected) {
             return
         }
-        val frame = detectorFrame.frame
         if (lastFrameTime + detectorPrefs.delay > System.currentTimeMillis()) {
+            return
+        }
+        if (lastFrameTime + detectorPrefs.startDelay > System.currentTimeMillis()) {
             return
         }
         lastFrameTime = System.currentTimeMillis()
@@ -26,6 +28,7 @@ class MotionProcessor {
             return
         }
 
+        val frame = detectorFrame.frame
         if (detectorPrefs.rotation != 0) {
             when(detectorPrefs.rotation) {
                 90 -> Core.rotate(frame, frame, Core.ROTATE_90_CLOCKWISE)
