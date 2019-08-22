@@ -33,4 +33,7 @@
     <string name="send_to_telegram">Send images to Telegram</string>
     <string name="start_delay">Delay before start (ms)</string>
     <string name="default_start_delay">0</string>
+    <string name="record_video">Record Video</string>
+    <string name="save_video_to_disk">Save Video to Disk</string>
+    <string name="send_video_to_telegram">Send Video to Telegram</string>
 </resources>

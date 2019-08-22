@@ -14,17 +14,21 @@ class MotionProcessor {
 
     fun handleFrame(detectorFrame: DetectorFrame, detectorPrefs: DetectorPreferences) {
         if (!detectorFrame.isMotionDetected) {
+            detectorFrame.release()
             return
         }
         if (lastFrameTime + detectorPrefs.delay > System.currentTimeMillis()) {
+            detectorFrame.release()
             return
         }
         if (lastFrameTime + detectorPrefs.startDelay > System.currentTimeMillis()) {
+            detectorFrame.release()
             return
         }
         lastFrameTime = System.currentTimeMillis()
 
         if (!detectorPrefs.saveToMediaLibrary && !detectorPrefs.sendToTelegram) {
+            detectorFrame.release()
             return
         }
 

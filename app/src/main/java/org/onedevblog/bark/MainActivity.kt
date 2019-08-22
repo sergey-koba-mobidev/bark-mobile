@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 snackbarText = getResources().getString(R.string.started)
                 fab.setImageResource(android.R.drawable.ic_media_pause)
+                CameraX.unbindAll()
                 screenWakeLock.acquire()
                 startService(intent)
             }
@@ -73,8 +74,13 @@ class MainActivity : AppCompatActivity() {
             == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
         }
-
-        texture.post { startCamera() }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
+            == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), 1)
+        }
+        if (!MotionDetectorService.isServiceRunning) {
+            texture.post { startCamera() }
+        }
     }
 
     private fun startCamera() {

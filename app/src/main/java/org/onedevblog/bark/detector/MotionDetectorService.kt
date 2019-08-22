@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Camera
 import android.graphics.Color
 import android.os.Build
 
@@ -25,6 +24,7 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CaptureRequest
 import android.os.Handler
 import android.os.HandlerThread
+import android.view.Surface
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
 import org.opencv.android.OpenCVLoader
@@ -37,6 +37,7 @@ class MotionDetectorService: Service() {
     private lateinit var session: CameraCaptureSession
     private val motionDetector = MotionDetector()
     private val motionProcessor = MotionProcessor()
+    private val motionVideoProcessor = MotionVideoProcessor()
     private lateinit var handlerThread: HandlerThread
     private lateinit var handler: Handler
 
@@ -109,6 +110,7 @@ class MotionDetectorService: Service() {
                     val frame = JavaCamera2Frame(img)
                     val detectorFrame = motionDetector.processMat(frame, detectorPref)
                     motionProcessor.handleFrame(detectorFrame, detectorPref)
+                    motionVideoProcessor.handleImg(img, detectorFrame.isMotionDetected)
                     frame.release()
                 }
                 img.close()
@@ -137,7 +139,9 @@ class MotionDetectorService: Service() {
     }
 
     override fun onDestroy() {
+        Log.d(TAG, "onDestroy")
         isServiceRunning = false
+        motionVideoProcessor.release()
         session.stopRepeating()
         session.abortCaptures()
         session.close()
@@ -177,7 +181,11 @@ class MotionDetectorService: Service() {
 
     private fun actOnReadyCameraDevice() {
         try {
-            cameraDevice.createCaptureSession(Arrays.asList(imageReader.getSurface()), sessionStateCallback, null)
+            Log.d(TAG, "actOnReadyCameraDevice")
+            val surfaces = ArrayList<Surface>().apply {
+                add(imageReader.surface)
+            }
+            cameraDevice.createCaptureSession(surfaces, sessionStateCallback, null)
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.message)
         }
@@ -186,8 +194,11 @@ class MotionDetectorService: Service() {
 
     private fun createCaptureRequest(): CaptureRequest? {
         try {
-            val builder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
-            builder.addTarget(imageReader.surface)
+            Log.d(TAG, "createCaptureRequest")
+            val builder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD).apply {
+                addTarget(imageReader.surface)
+            }
+
             return builder.build()
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.message)

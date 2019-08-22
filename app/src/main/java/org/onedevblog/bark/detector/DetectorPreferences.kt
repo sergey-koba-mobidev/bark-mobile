@@ -20,7 +20,9 @@ class DetectorPreferences {
     var putDateOnImage: Boolean = false
     var saveToMediaLibrary: Boolean = false
     var sendToTelegram: Boolean = false
+    var sendVideoToTelegram: Boolean = false
     var telegramChatId: String = ""
+    var recordVideo: Boolean = false
 
     init {
         sharedPref = BarkApplication.context.getSharedPreferences(BarkApplication.context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
@@ -38,7 +40,9 @@ class DetectorPreferences {
         val defaultPutDateOnImage = false
         val defaultSaveToMediaLibrary = false
         val defaultSendToTelegram = false
+        val defaultSendVideoToTelegram = false
         val defaultTelegramChatId = ""
+        val defaultRecordVideo = false
 
         name = sharedPref.getString("detector_name", defaultName)
         sensitivity = sharedPref.getInt("detector_sensitivity", defaultSensitivity)
@@ -51,7 +55,9 @@ class DetectorPreferences {
         putDateOnImage = sharedPref.getBoolean("detector_put_date_on_image", defaultPutDateOnImage)
         saveToMediaLibrary = sharedPref.getBoolean("actions_save_to_medialibrary", defaultSaveToMediaLibrary)
         sendToTelegram = sharedPref.getBoolean("actions_send_to_telegram", defaultSendToTelegram)
+        sendVideoToTelegram = sharedPref.getBoolean("actions_send_video_to_telegram", defaultSendVideoToTelegram)
         telegramChatId = sharedPref.getString("actions_telegram_chat_id", defaultTelegramChatId)
+        recordVideo = sharedPref.getBoolean("actions_record_video", defaultRecordVideo)
     }
 
     fun save() {
@@ -67,7 +73,9 @@ class DetectorPreferences {
             putBoolean("detector_put_date_on_image", putDateOnImage)
             putBoolean("actions_save_to_medialibrary", saveToMediaLibrary)
             putBoolean("actions_send_to_telegram", sendToTelegram)
+            putBoolean("actions_send_video_to_telegram", sendVideoToTelegram)
             putString("actions_telegram_chat_id", telegramChatId)
+            putBoolean("actions_record_video", recordVideo)
             commit()
         }
     }

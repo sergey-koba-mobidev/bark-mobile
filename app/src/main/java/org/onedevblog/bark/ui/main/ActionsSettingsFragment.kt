@@ -28,13 +28,17 @@ class ActionsSettingsFragment : Fragment(), CanBeSaved {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<CheckBox>(R.id.save_to_medialibrary_checkbox).setChecked(detectorPref.saveToMediaLibrary)
         view.findViewById<CheckBox>(R.id.send_to_telegram_checkbox).setChecked(detectorPref.sendToTelegram)
+        view.findViewById<CheckBox>(R.id.send_video_to_telegram_checkbox).setChecked(detectorPref.sendVideoToTelegram)
         view.findViewById<EditText>(R.id.telegram_chat_id_edit).setText(detectorPref.telegramChatId)
+        view.findViewById<CheckBox>(R.id.record_video_checkbox).setChecked(detectorPref.recordVideo)
     }
 
     override fun save() {
         detectorPref.saveToMediaLibrary = activity!!.findViewById<CheckBox>(R.id.save_to_medialibrary_checkbox).isChecked
         detectorPref.sendToTelegram = activity!!.findViewById<CheckBox>(R.id.send_to_telegram_checkbox).isChecked
+        detectorPref.sendVideoToTelegram = activity!!.findViewById<CheckBox>(R.id.send_video_to_telegram_checkbox).isChecked
         detectorPref.telegramChatId = activity!!.findViewById<EditText>(R.id.telegram_chat_id_edit).text.toString()
+        detectorPref.recordVideo = activity!!.findViewById<CheckBox>(R.id.record_video_checkbox).isChecked
         detectorPref.save()
         Snackbar.make(activity!!.findViewById(R.id.fab), activity!!.resources.getString(R.string.saved_settings), Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
